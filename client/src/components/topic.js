@@ -8,7 +8,7 @@ class Topic extends React.Component {
     fetch(`http://localhost:4000/topics/${this.props.topic._id}/${action}`, {
       method: 'PUT'
     }).then(res => res.json())
-      .then(topics => this.props.refreshTopics(topics));
+      .then(topics => this.props.refreshTopics(topics))
   }
 
   deleteTopic () {

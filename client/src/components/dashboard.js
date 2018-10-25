@@ -32,11 +32,11 @@ class Dashboard extends React.Component {
     return (
       <div>
         <h1>Codemocracy's Dashboard</h1>
-        <input type="text" name="title-text"
+        <input type="text"
           placeholder="add topic"
           value={this.state.titleText}
           onChange={e => this.setState({ titleText: e.target.value })} />
-        <button for="title-text" type="submit" onClick={() => this.addTopic()}>Add topic</button>
+        <button type="submit" onClick={() => this.addTopic()}>Add topic</button>
         <br/><br/>
         <TopicsList topics={this.props.topics} />
       </div>
