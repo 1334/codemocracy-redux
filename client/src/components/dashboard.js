@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import TopicsList from './topicsList'
-import { fetchTopics, addTopic } from '../redux/actions';
+import { refreshTopics } from '../redux/actions';
 
 class Dashboard extends React.Component {
 
@@ -13,7 +13,7 @@ class Dashboard extends React.Component {
   componentDidMount () {
     fetch('http://localhost:4000/topics')
       .then(res => res.json())
-      .then(topics => this.props.fetchTopics(topics));
+      .then(topics => this.props.refreshTopics(topics));
   }
 
   addTopic () {
@@ -22,7 +22,7 @@ class Dashboard extends React.Component {
       method: 'POST',
       body: JSON.stringify({ title: this.state.titleText })
     }).then(res => res.json())
-      .then(topics => this.props.fetchTopics(topics));
+      .then(topics => this.props.refreshTopics(topics));
     this.setState({ titleText: '' });
   }
 
@@ -47,8 +47,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchTopics: topics => dispatch(fetchTopics(topics)),
-  addTopic: topic => dispatch(addTopic(topic))
+  refreshTopics: topics => dispatch(refreshTopics(topics))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { deleteTopic, upvote, downvote, fetchTopics } from '../redux/actions';
+import { refreshTopics } from '../redux/actions';
 
 class Topic extends React.Component {
   updateVoteScore (newCount) {
@@ -8,14 +8,14 @@ class Topic extends React.Component {
     fetch(`http://localhost:4000/topics/${this.props.topic._id}/${action}`, {
       method: 'PUT'
     }).then(res => res.json())
-      .then(topics => this.props.fetchTopics(topics));
+      .then(topics => this.props.refreshTopics(topics));
   }
 
   deleteTopic () {
     fetch(`http://localhost:4000/topics/${this.props.topic._id}`, {
       method: 'DELETE'
     }).then(res => res.json())
-      .then(topics => this.props.fetchTopics(topics));
+      .then(topics => this.props.refreshTopics(topics));
   }
 
   render () {
@@ -41,10 +41,7 @@ class Topic extends React.Component {
 
 const mapStoreToProps = null;
 const mapDispatchToProps = dispatch => ({
-  deleteTopic: id => dispatch(deleteTopic(id)),
-  upvote: id => dispatch(upvote(id)),
-  downvote: id => dispatch(downvote(id)),
-  fetchTopics: topics => dispatch(fetchTopics(topics))
+  refreshTopics: topics => dispatch(refreshTopics(topics))
 });
 
 
