@@ -17,9 +17,11 @@ class Dashboard extends React.Component {
   }
 
   addTopic () {
-    console.log(JSON.stringify({ title: this.state.titleText }));
     fetch('http://localhost:4000/topics', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
       body: JSON.stringify({ title: this.state.titleText })
     }).then(res => res.json())
       .then(topics => this.props.refreshTopics(topics));
@@ -30,11 +32,11 @@ class Dashboard extends React.Component {
     return (
       <div>
         <h1>Codemocracy's Dashboard</h1>
-        <input type="text"
+        <input type="text" name="title-text"
           placeholder="add topic"
           value={this.state.titleText}
           onChange={e => this.setState({ titleText: e.target.value })} />
-        <button type="submit" onClick={() => this.addTopic()}>Add topic</button>
+        <button for="title-text" type="submit" onClick={() => this.addTopic()}>Add topic</button>
         <br/><br/>
         <TopicsList topics={this.props.topics} />
       </div>

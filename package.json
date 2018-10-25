@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.4",
     "koa": "^2.6.1",
     "koa-body": "^4.0.4",
     "koa-cors": "0.0.16",
