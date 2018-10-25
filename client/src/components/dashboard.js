@@ -6,28 +6,24 @@ import { fetchTopics, addTopic } from '../redux/actions';
 
 class Dashboard extends React.Component {
 
-  constructor (props) {
-    super(props);
-    this.state = {
-      titleText: ''
-    };
-  }
+  state = {
+    titleText: ''
+  };
 
   componentDidMount () {
     fetch('http://localhost:4000/topics')
       .then(res => res.json())
-      .then(topics => this.props.fetchTopics(topics))
-      // .then(topics => console.log(topics))
+      .then(topics => this.props.fetchTopics(topics));
   }
 
   addTopic () {
-    const newTopic = {
-      title: this.state.titleText,
-      published_at: Date.now(),
-      score: 0
-    };
-    this.props.addTopic(newTopic);
-    // reset input
+    console.log(JSON.stringify({ title: this.state.titleText }));
+    fetch('http://localhost:4000/topics', {
+      method: 'POST',
+      body: JSON.stringify({ title: this.state.titleText })
+    }).then(res => res.json())
+      .then(topics => this.props.fetchTopics(topics));
+    this.setState({ titleText: '' });
   }
 
   render () {

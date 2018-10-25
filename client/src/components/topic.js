@@ -1,25 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { deleteTopic, upvote, downvote } from '../redux/actions';
+import { deleteTopic, upvote, downvote, fetchTopics } from '../redux/actions';
 
 class Topic extends React.Component {
   updateVoteScore (newCount) {
     const action = newCount > this.props.topic.score ? 'up' : 'down';
     fetch(`http://localhost:4000/topics/${this.props.topic._id}/${action}`, {
       method: 'PUT'
-    }).then(
-      action === 'up' ?
-      this.props.upvote(this.props.topic._id) :
-      this.props.downvote(this.props.topic._id)
-    );
+    }).then(res => res.json())
+      .then(topics => this.props.fetchTopics(topics));
   }
 
   deleteTopic () {
     fetch(`http://localhost:4000/topics/${this.props.topic._id}`, {
       method: 'DELETE'
-    }).then(
-      this.props.deleteTopic(this.props.topic._id)
-    );
+    }).then(res => res.json())
+      .then(topics => this.props.fetchTopics(topics));
   }
 
   render () {
@@ -31,7 +27,7 @@ class Topic extends React.Component {
           <button onClick={() => this.updateVoteScore(this.props.topic.score - 1)}>-</button></div>
         <div>
           <p>{this.props.topic.title}</p>
-          <p>{this.props.topic.published_at}</p>
+          <p>{this.props.topic.published_at.toString()}</p>
         </div>
         <div>
           <button onClick={() => this.deleteTopic()}>
@@ -48,6 +44,7 @@ const mapDispatchToProps = dispatch => ({
   deleteTopic: id => dispatch(deleteTopic(id)),
   upvote: id => dispatch(upvote(id)),
   downvote: id => dispatch(downvote(id)),
+  fetchTopics: topics => dispatch(fetchTopics(topics))
 });
 
 

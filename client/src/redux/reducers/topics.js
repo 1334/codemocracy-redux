@@ -3,7 +3,7 @@ import types from '../actionTypes';
 export default function (state = [], action) {
   switch (action.type) {
     case types.FETCH_TOPICS:
-      return [...state, ...action.topics].sort((e1,e2) => e2.score - e1.score);
+      return action.topics.sort((e1,e2) => e2.score - e1.score);
     case types.ADD_TOPIC:
       return [...state, action.topic].sort((e1,e2) => e2.score - e1.score);
     case types.DELETE_TOPIC:

@@ -9,22 +9,26 @@ topicsController.getAll = async function (ctx) {
 };
 
 topicsController.createTopic = async function (ctx) {
-  await topics.create(ctx.request.body);
+  await topics.create(JSON.parse(ctx.request.body));
+  ctx.body = await topics.getAll();
   ctx.status = 201;
 };
 
 topicsController.deleteTopic = async function (ctx) {
   await topics.delete(ctx.params.id);
-  ctx.status = 204;
+  ctx.body = await topics.getAll();
+  ctx.status = 200;
 };
 
 topicsController.upvoteTopic = async function (ctx) {
-  ctx.body = await topics.up(ctx.params.id);
+  await topics.up(ctx.params.id);
+  ctx.body = await topics.getAll();
   ctx.status = 200;
 };
 
 topicsController.downvoteTopic = async function (ctx) {
-  ctx.body = await topics.down(ctx.params.id);
+  await topics.down(ctx.params.id);
+  ctx.body = await topics.getAll();
   ctx.status = 200;
 };
 
